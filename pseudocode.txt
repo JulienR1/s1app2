@@ -1,0 +1,206 @@
+Recherche d'un caractère
+// TESTS
+// Entrées : "Hello world!", 'H'     Sortie: 0
+// Entrées : "Hello world!", '!'     Sortie: 11
+// Entrées : "Hello world!", 'a'     Sortie: -1
+// Entrées : "HELLO WORLD!", 'e'     Sortie: -1
+// Entrées : "Banana", 'a'           Sortie: 1
+
+FONCTION charLookup(c, str) : index
+    // c (charactère) : Charactère recherché dans la chaîne
+    // str (charactère[]) : Tableau de charactère
+    // index (entier) : Position à laquelle le charactère c apparaît pour la première fois dans str
+DÉBUT
+    POUR index := 0 À strlen(str) PAR PAS DE 1
+        SI str[index] = c ALORS
+            Retourner index
+    Retourner -1
+FIN
+
+
+
+
+Détection d'un palindrome
+// TESTS
+// Entrée : "kayak"    Sortie : VRAI
+// Entrée : "civic"    Sortie : VRAI
+// Entrée : "abccba"   Sortie : VRAI
+// Entrée : "dawdadio" Sortie : FAUX
+
+FONCTION isPalindrome(str) : success
+    // str (charactère[]) : Tableau de charactère
+    // len (entier) : Longueur de str
+    // success (booléen) : str est un palindrome ou non
+DÉBUT
+    len := strlen(str)
+    POUR i := 0 À len / 2 PAR PAS DE 1
+        SI str[i] != str[len - i - 1] ALORS
+            success := FAUX
+            Retourner success
+    success := VRAI
+    Retourner success
+FIN
+
+
+
+
+Factorielle
+// TESTS
+// Entrée: -1 Sortie: erreur
+// Entrée: 0  Sortie: 1
+// Entrée: 1  Sortie: 1
+// Entrée: 5  Sortie: 240
+// Entrée: 'abc' Sortie: erreur
+
+FONCTION factorial(n) : result
+    // n (entier positif incluant 0) : la valeur de laquelle il faut calculer la Factorielle
+    // result (entier positif) : le résultat de n!
+DÉBUT
+    result := 1
+    POUR n > 1 À PAS DE -1
+        result := result * n
+    Retourner result
+FIN
+
+
+
+Puissance
+// TESTS
+// Entrées : 2, 2     Sortie : 4
+// Entrées : 1/2, 2   Sortie : 1/4
+// Entrées : 2, -2    Sortie : 1/4
+// Entrées : 0, 2     Sortie : 0
+// Entrées : 2, 0     Sortie : 1
+// Entrées : 1, 1/2   Sortie : erreur
+// Entrées : "abc", 2 Sortie : erreur
+// Entrées : 2, "abc" Sortie : erreur
+
+FONCTION pow(base, exponent) : result
+    // base (réel) : la base du calcul de puissance
+    // exponent (entier) : l'exposant du calcul de puissance
+    // result: le résultat du calcul
+DÉBUT
+    SI exponent < 0 ALORS
+        exponent := -exponent
+        base := 1 / base
+
+    result := 1
+    POUR i := 1 À exponent PAR PAS DE 1
+        result := result * base
+    
+    Retourner result
+FIN
+
+
+
+Modulo pour nombres réels
+// TESTS
+// Entrées : 10, 3.33   Sortie : 0.003
+// Entrées : 10, PI     Sortie : 0.18
+// Entrées : 10, -PI    Sortie : -0.18
+
+FONCTION fmod(n, modulo) : result
+    // n (réel) : Nombre sur lequel l'opération modulo est appliquée
+    // modulo (réel) : Le diviseur
+    // result (réel) : Le reste de la division de n par modulo
+DÉBUT
+    result := n / modulo - (int)(n / modulo)
+    Retourner result
+FIN
+
+
+
+Calcul du sinus
+// TESTS
+// Entrée : 0     Sortie : 0
+// Entrée : PI    Sortie : 0
+// Entrée : PI/2  Sortie : 1
+// Entrée : 3PI/2 Sortie: -1
+// Entrée : 7PI/2 Sortie: -1
+// Entrée : PI/6  Sortie: 1/2
+// Entrée : PI/3  Sortie: 0.866
+// Entrée : 651   Sortie: -0.6367
+
+// EPSILON (réel) : define, précision minimale à atteindre
+// PI (réel) : define, 3.14159265
+FONCTION sin(angle) : result
+    // angle (réel) : la valeur de l'angle à laquelle calculer le sinus
+    // previousResult (réel) : la valeur du sinus au cours de l'itération précédente
+    // iteration (entier) : nombre d'iterations effectuées
+    // result (réel) : la valeur du sinus calculé à l'angle demandé
+DÉBUT
+    angle := fmod(angle, 2 * PI) * 2 * PI
+
+    result := 0
+    previousResult := 0
+    TANT QUE result - previousResult < EPSILON ET result - previousResult > -EPSILON
+        previousResult := result
+        result := result + pow(-1, iteration + 1) * pow(angle, 2 * iteration - 1) / factorial(2 * iteration - 1)
+        iteration := iteration + 1
+    Retourner result
+FIN
+
+
+
+
+Calcul du cosinus
+// TESTS
+// Entrée : 0     Sortie : 1
+// Entrée : PI    Sortie : -1
+// Entrée : PI/2  Sortie : 0
+// Entrée : 3PI/2 Sortie: 0
+// Entrée : 7PI   Sortie: -1
+// Entrée : PI/6  Sortie: 0.866
+// Entrée : PI/3  Sortie: 1/2
+// Entrée : 651   Sortie: -0.771
+
+// PI (réel) : define, 3.14159265
+FONCTION sin(angle) : result
+    // angle (réel) : la valeur de l'angle à laquelle calculer le sinus
+    // result (réel) : la valeur du sinus calculé à l'angle demandé
+DÉBUT
+    result := sin(angle + PI / 2.0)
+    Retourner result
+FIN
+
+
+
+
+Addition de deux matrices
+// TESTS
+// Entrées: [1,1,1,1,1,1], [1,1,1,1,1,1]    Sortie: [2,2,2,2,2,2]
+// Entrées: [1,1,1,1,1,1], [0,0,0,0,0,0]    Sortie: [1,1,1,1,1,1]
+// Entrées: [0,0,0,0,0,0], [1,1,1,1,1,1]    Sortie: [1,1,1,1,1,1]
+// Entrées: [-1,-1,-1,-1,-1,-1], [1,1,1,1,1,1]    Sortie: [0,0,0,0,0,0]
+
+// matrixWidth := 2 (entier) : define, le nb de colonnes des matrices
+// matrixHeight := 3 (entier) : define, le nb de rangées des matrices
+FONCTION addMatrices(mat1 : entrée, mat2 : entrée, matOut : sortie)
+    // mat1 (réel[matrixWidth * matrixHeight]) : Première matrice à additionner
+    // mat2 (réel[matrixWidth * matrixHeight]) : Deuxième matrice à additionner
+    // matOut (réel[matrixWidth * matrixHeight]) : Somme de matA et matB
+DÉBUT
+    POUR i := 0 À matrixWidth * matrixHeight PAR PAS DE 1
+        matOut[i] := mat1[i] + mat2[i]
+FIN
+
+
+
+
+Multiplication de deux matrices
+// TESTS
+// Entrées : [1,1,1,1,1,1,1,1,1], [0,0,0,0,0,0,0,0,0]          Sortie : [0,0,0,0,0,0,0,0,0]
+// Entrées : [1,2,3,4,5,6,7,8,9], [1,0,0,0,1,0,0,0,1]          Sortie : [1,2,3,4,5,6,7,8,9]
+// Entrées : [1,2,3,4,5,6,7,8,9], [0,0,1,0,1,0,1,0,0]          Sortie : [3,2,1,6,5,4,9,8,7]
+// Entrées : [1,2,3,4,5,6,7,8,9], [-1,0,0,0,-1,0,0,-1]         Sortie : [-1,-2,-3,-4,-5,-6,-7,-8,-9]
+
+// squareMatrixSize := 3 (entier) : define, la grosseur des matrices carrées
+FONCTION multiplyMatrices(mat1 : entrée, mat2: entrée, matOut : sortie)
+    // mat1 (réel[matrixWidth * matrixHeight]) : Première matrice à multiplier
+    // mat2 (réel[matrixWidth * matrixHeight]) : Deuxième matrice à multiplier
+    // matOut (réel[matrixWidth * matrixHeight]) : Somme de matA et matB
+DÉBUT
+    POUR i := 0 À squareMatrixSize * squareMatrixSize PAR PAS DE 1
+        POUR n := 0 À squareMatrixSize PAR PAS DE 1
+            matOut[i] := matOut[i] + mat1[n + i / squareMatrixSize] * mat2[squareMatrixSize * n + i mod squareMatrixSize]
+FIN
