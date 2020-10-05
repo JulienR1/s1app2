@@ -68,7 +68,6 @@ double fmod(double n, double modulo){
 
 double sin(double angle){
     angle = fmod(angle, 2 * PI) * 2 * PI;
-    printf("-------%.4f--------", angle);
 
     int iteration = 1;
     double result = 0, previousResult = 0;
@@ -76,7 +75,6 @@ double sin(double angle){
         previousResult = result;
         result += pow(-1, iteration + 1) * pow(angle, 2 * iteration - 1) / factorial(2 * iteration - 1);
         iteration++;
-   // }while(iteration < 15);
     } while(result - previousResult < EPSILON && result - previousResult > -EPSILON);
     
     return result;
