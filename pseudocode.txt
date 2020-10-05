@@ -49,7 +49,7 @@ Factorielle
 // Entrée: -1 Sortie: erreur
 // Entrée: 0  Sortie: 1
 // Entrée: 1  Sortie: 1
-// Entrée: 5  Sortie: 240
+// Entrée: 5  Sortie: 120
 // Entrée: 'abc' Sortie: erreur
 
 FONCTION factorial(n) : result
