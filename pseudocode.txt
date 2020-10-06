@@ -11,7 +11,7 @@ FONCTION charLookup(c, str) : index
     // str (charactère[]) : Tableau de charactère
     // index (entier) : Position à laquelle le charactère c apparaît pour la première fois dans str
 DÉBUT
-    POUR index := 0 À strlen(str) PAR PAS DE 1
+    POUR index := 0 TANT QUE str[index] DIFFÉRENT DE '\0' PAR PAS DE 1
         SI str[index] = c ALORS
             Retourner index
     Retourner -1
@@ -32,7 +32,9 @@ FONCTION isPalindrome(str) : success
     // len (entier) : Longueur de str
     // success (booléen) : str est un palindrome ou non
 DÉBUT
-    len := strlen(str)
+    len := 0
+    POUR len DE 0 TANT QUE str[len] DIFFÉRENT DE '\0' PAR PAS DE 1
+
     POUR i := 0 À len / 2 PAR PAS DE 1
         SI str[i] != str[len - i - 1] ALORS
             success := FAUX
@@ -54,7 +56,8 @@ Factorielle
 
 FONCTION factorial(n) : result
     // n (entier positif incluant 0) : la valeur de laquelle il faut calculer la Factorielle
-    // result (entier positif) : le résultat de n!
+    // result (réel) : le résultat de n!
+    // result est un réel pour éviter des problèmes de conversions mathématiques
 DÉBUT
     result := 1
     POUR n > 1 À PAS DE -1
@@ -121,22 +124,17 @@ Calcul du sinus
 // Entrée : PI/3  Sortie: 0.866
 // Entrée : 651   Sortie: -0.6367
 
-// EPSILON (réel) : define, précision minimale à atteindre
+// ITERATION_COUNT (entier) : define, 10
 // PI (réel) : define, 3.14159265
 FONCTION sin(angle) : result
-    // angle (réel) : la valeur de l'angle à laquelle calculer le sinus
-    // previousResult (réel) : la valeur du sinus au cours de l'itération précédente
-    // iteration (entier) : nombre d'iterations effectuées
+    // angle (réel) : la valeur de l'angle à laquelle calculer le sinus        
     // result (réel) : la valeur du sinus calculé à l'angle demandé
 DÉBUT
     angle := fmod(angle, 2 * PI) * 2 * PI
 
-    result := 0
-    previousResult := 0
-    TANT QUE result - previousResult < EPSILON ET result - previousResult > -EPSILON
-        previousResult := result
-        result := result + pow(-1, iteration + 1) * pow(angle, 2 * iteration - 1) / factorial(2 * iteration - 1)
-        iteration := iteration + 1
+    result := 0    
+    POUR i DE 0 À ITERATION_COUNT PAR PAS DE 1            
+        result := result + pow(-1, iteration) * pow(angle, 2 * i + 1) / factorial(2 * i + 1)        
     Retourner result
 FIN
 
@@ -154,12 +152,17 @@ Calcul du cosinus
 // Entrée : PI/3  Sortie: 1/2
 // Entrée : 651   Sortie: -0.771
 
+// ITERATION_COUNT (entier) : define, 10
 // PI (réel) : define, 3.14159265
-FONCTION sin(angle) : result
-    // angle (réel) : la valeur de l'angle à laquelle calculer le sinus
+FONCTION cos(angle) : result
+    // angle (réel) : la valeur de l'angle à laquelle calculer le cosinus        
     // result (réel) : la valeur du sinus calculé à l'angle demandé
 DÉBUT
-    result := sin(angle + PI / 2.0)
+    angle := fmod(angle, 2 * PI) * 2 * PI
+
+    result := 0    
+    POUR i DE 0 À ITERATION_COUNT PAR PAS DE 1            
+        result := result + pow(-1, iteration) * pow(angle, 2 * i) / factorial(2 * i)        
     Retourner result
 FIN
 
@@ -202,5 +205,5 @@ FONCTION multiplyMatrices(mat1 : entrée, mat2: entrée, matOut : sortie)
 DÉBUT
     POUR i := 0 À squareMatrixSize * squareMatrixSize PAR PAS DE 1
         POUR n := 0 À squareMatrixSize PAR PAS DE 1
-            matOut[i] := matOut[i] + mat1[n + i / squareMatrixSize] * mat2[squareMatrixSize * n + i mod squareMatrixSize]
+            matOut[i] := matOut[i] + mat1[n + (int)(i / squareMatrixSize) * squareMatrixSize] * mat2[squareMatrixSize * n + i mod squareMatrixSize]
 FIN
